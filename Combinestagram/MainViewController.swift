@@ -50,7 +50,9 @@ class MainViewController: UIViewController {
     super.viewDidLoad()
     
     images
+      .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
       .subscribe(onNext: { [weak imagePreview] photos in
+        print("됐어!")
         guard let preview = imagePreview else { return }
         preview.image = photos.collage(size: preview.frame.size)
       })
@@ -89,10 +91,6 @@ class MainViewController: UIViewController {
   }
 
   @IBAction func actionAdd() {
-
-//    let newImages = images.value + [UIImage(named: "IMG_1907.jpg")!]
-//    images.accept(newImages)
-    
     
     let photosVC = storyboard?.instantiateViewController(withIdentifier: "PhotosViewController") as! PhotosViewController
     
